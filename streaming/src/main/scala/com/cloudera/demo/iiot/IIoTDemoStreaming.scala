@@ -26,7 +26,7 @@ import org.eclipse.kapua.service.device.call.message.kura.proto.kurapayload.Kura
 
 object IIoTDemoStreaming {
 
-  case class Telemetry(motor_id:String, millis:Option[Long], metric:String, value:Option[String])
+  case class Telemetry(id:String, millis:Option[Long], metric:String, value:Option[String])
 
   def main(args:Array[String]):Unit = {
 
@@ -81,7 +81,7 @@ object IIoTDemoStreaming {
 
     // Convert (id, KuraPayload) tuple DStream into Telemetry DStream
     val telemetryDStream = kurapayloadDStream.flatMap(message => {
-      val motor_id = message._1
+      val id = message._1
       val millis = message._2.timestamp
       val metricsList = message._2.metric
 
@@ -100,7 +100,7 @@ object IIoTDemoStreaming {
           else metric.stringValue
 
         }
-        telemetryArray(i) = new Telemetry(motor_id, millis, metric.name, metricValue)
+        telemetryArray(i) = new Telemetry(id, millis, metric.name, metricValue)
         i += 1
       }
 
