@@ -89,4 +89,4 @@ if (model != null) {
 	}
 }
 
-:quit
+System.exit(0)
