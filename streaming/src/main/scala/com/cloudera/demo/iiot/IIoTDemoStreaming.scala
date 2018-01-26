@@ -110,9 +110,12 @@ object IIoTDemoStreaming {
         }
         // TEMPORARY WORKAROUND UNTIL DEV BOARD TIMESTAMP ISSUE RESOLVED
         //telemetryArray(i) = new Telemetry(id, millis, metric.name, metricValue)
-        if (!metric.name.endsWith("_timestamp")) telemetryArray(i) = new Telemetry(id, millis, metric.name, metricValue)
+        //i += 1
+        if (!metric.name.endsWith("_timestamp") {
+          telemetryArray(i) = new Telemetry(id, millis, metric.name, metricValue)
+          i += 1
+        }
 
-        i += 1
       }
 
       telemetryArray
