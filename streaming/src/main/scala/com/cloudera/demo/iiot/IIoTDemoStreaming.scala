@@ -93,7 +93,7 @@ object IIoTDemoStreaming {
 
       // TEMPORARY WORKAROUND UNTIL DEV BOARD TIMESTAMP ISSUE RESOLVED
       //var telemetryArray = new Array[Telemetry](metricsList.length)
-      var telemetryArray = new Array[Telemetry](metricsList.length / 2)
+      var telemetryArray = new Array[Telemetry]((metricsList.length - 1) / 2)
 
       var i = 0
       for (metric <- metricsList) {
@@ -111,7 +111,7 @@ object IIoTDemoStreaming {
         // TEMPORARY WORKAROUND UNTIL DEV BOARD TIMESTAMP ISSUE RESOLVED
         //telemetryArray(i) = new Telemetry(id, millis, metric.name, metricValue)
         //i += 1
-        if (!metric.name.endsWith("_timestamp")) {
+        if (!metric.name.endsWith("_timestamp") && !metric.name.equals("assetName")) {
           telemetryArray(i) = new Telemetry(id, millis, metric.name, metricValue)
           i += 1
         }
