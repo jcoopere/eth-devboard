@@ -1,0 +1,15 @@
+-- Drop table "iiot.telemetry" if it exists
+DROP TABLE IF EXISTS iiot.telemetry;
+
+-- Create table "iiot.telemetry"
+CREATE TABLE iiot.telemetry (
+	millis BIGINT,
+	id STRING,
+	metric STRING,
+	value STRING,
+	PRIMARY KEY (motor_id, metric, millis)
+)
+PARTITION BY HASH (motor_id, metric)
+PARTITIONS 9
+STORED AS KUDU
+;

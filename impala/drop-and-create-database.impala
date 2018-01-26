@@ -1,0 +1,5 @@
+-- Drop database "iiot" if it exists
+DROP DATABASE IF EXISTS iiot;
+
+-- Create database "iiot"
+CREATE DATABASE iiot;
