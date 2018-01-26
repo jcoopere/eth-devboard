@@ -49,7 +49,24 @@ val labelConverter = new IndexToString().setInputCol("prediction").setOutputCol(
 
 // Build Pipeline
 val pipeline = new Pipeline().setStages(Array(formula, labelIndexer, rf, labelConverter))
-val model = pipeline.fit(points)
+
+// Split corpus into training and testing sets
+val Array(trainingData, testData) = points.randomSplit(Array(0.7, 0.3))
+
+// Train model
+#val model = pipeline.fit(points)
+val model = pipeline.fit(trainingData)
+
+// Make predictions on testing set
+val predictions = model.transform(testData)
+
+// Evaluate efficacy
+val evaluator = new MulticlassClassificationEvaluator()
+  .setLabelCol("indexedLabel")
+  .setPredictionCol("prediction")
+  .setMetricName("precision")
+val accuracy = evaluator.evaluate(predictions)
+println("Test Error = " + (1.0 - accuracy))
 
 if (model != null) {
 	// Convert to PMML
