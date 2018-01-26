@@ -26,7 +26,9 @@ import org.eclipse.kapua.service.device.call.message.kura.proto.kurapayload.Kura
 
 object IIoTDemoStreaming {
 
-  case class Telemetry(id:String, millis:Option[Long], metric:String, value:Option[String])
+  // TEMPORARY WORKAROUND UNTIL DEV BOARD TIMESTAMP ISSUE RESOLVED
+  //case class Telemetry(id:String, millis:Option[Long], metric:String, value:Option[String])
+  case class Telemetry(id:String, millis:Long, metric:String, value:Option[String])
 
   def main(args:Array[String]):Unit = {
 
@@ -82,10 +84,16 @@ object IIoTDemoStreaming {
     // Convert (id, KuraPayload) tuple DStream into Telemetry DStream
     val telemetryDStream = kurapayloadDStream.flatMap(message => {
       val id = message._1
-      val millis = message._2.timestamp
+      // TEMPORARY WORKAROUND UNTIL DEV BOARD TIMESTAMP ISSUE RESOLVED
+      //val millis = message._2.timestamp
+      val millis = System.currentTimeMillis()
+
       val metricsList = message._2.metric
 
-      var telemetryArray = new Array[Telemetry](metricsList.length)
+
+      // TEMPORARY WORKAROUND UNTIL DEV BOARD TIMESTAMP ISSUE RESOLVED
+      //var telemetryArray = new Array[Telemetry](metricsList.length)
+      var telemetryArray = new Array[Telemetry](metricsList.length / 2)
 
       var i = 0
       for (metric <- metricsList) {
@@ -100,7 +108,10 @@ object IIoTDemoStreaming {
           else metric.stringValue
 
         }
-        telemetryArray(i) = new Telemetry(id, millis, metric.name, metricValue)
+        // TEMPORARY WORKAROUND UNTIL DEV BOARD TIMESTAMP ISSUE RESOLVED
+        //telemetryArray(i) = new Telemetry(id, millis, metric.name, metricValue)
+        if (!metric.name.endsWith("_timestamp")) telemetryArray(i) = new Telemetry(id, millis, metric.name, metricValue)
+
         i += 1
       }
 
