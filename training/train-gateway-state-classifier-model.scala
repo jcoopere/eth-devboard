@@ -32,7 +32,7 @@ val data = sc.textFile(trainingDataDir)
 val points = data.map(line => {
 	val split = line.split(" ")
 
-	new LabeledTelemetry(split(0).toDouble, split(1).split(":")(1).toDouble, split(2).split(":")(1).toDouble, split(3).split(":")(1).toDouble
+	new LabeledTelemetry(split(0).toDouble, split(1).split(":")(1).toDouble, split(2).split(":")(1).toDouble, split(3).split(":")(1).toDouble)
 }).toDF
 
 // Formula
