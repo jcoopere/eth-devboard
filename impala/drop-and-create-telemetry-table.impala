@@ -7,9 +7,9 @@ CREATE TABLE iiot.telemetry (
 	id STRING,
 	metric STRING,
 	value STRING,
-	PRIMARY KEY (motor_id, metric, millis)
+	PRIMARY KEY (id, metric, millis)
 )
-PARTITION BY HASH (motor_id, metric)
+PARTITION BY HASH (id, metric)
 PARTITIONS 9
 STORED AS KUDU
 ;
